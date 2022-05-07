@@ -1,21 +1,25 @@
-/* import { createStore } from 'redux'; */
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 
-/* export const IDENTIFIERS ={
-    INCREMENT: 'INCREMENT',
-    DECREMENT: 'DECREMENT',
-    INCREASE: 'INCREASE',
-    TOGGLE: 'TOGGLE',
-} */
 
-const initialState = {
-    counter: 0, 
-    showCounter: true,
-}
+const counterInitialState = { counter: 0, showCounter: true, }
+const authInitialState = { auth: false}
+
+const authSlice = createSlice ({
+    name: 'auth',
+    initialState: authInitialState,
+    reducers: {
+        login(state) {
+            state.auth = true;
+        },
+        logout(state) {
+            state.auth = false;
+        },
+    }
+})
 
 const counterSlice = createSlice({
     name: 'counter',
-    initialState,
+    initialState: counterInitialState,
     reducers: {
         increment(state) {
             state.counter++
@@ -35,38 +39,9 @@ const counterSlice = createSlice({
     }
 })
 
-/* const counterRedux = (state = initialState, action) => {
-    switch(action.type) {
-        case IDENTIFIERS.INCREMENT:
-            return {
-                counter : state.counter +1,
-                showCounter: state.showCounter,
-            }
-        case IDENTIFIERS.DECREMENT:
-            return {
-                counter : state.counter -1,
-                showCounter: state.showCounter,
-            }
-        case IDENTIFIERS.INCREASE:
-            return {
-                counter : state.counter + action.amount,
-                showCounter: state.showCounter,
-            }
-        case IDENTIFIERS.TOGGLE:
-            return {
-                counter : state.counter,
-                showCounter: !state.showCounter,
-            }
-        default:
-            return state
-    }
-}
-
-const store = createStore(counterRedux);
-*/
-
 const store = configureStore({
-    reducer: counterSlice.reducer
+    reducer: {counter: counterSlice.reducer, auth: authSlice.reducer}
 })
-export const counterActions = counterSlice.actions
+export const authActions = authSlice.actions;
+export const counterActions = counterSlice.actions;
 export default store;
